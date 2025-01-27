@@ -1,21 +1,7 @@
 [build]
+  base = ""
   publish = "site/public"
-  command = "cd site && hugo --minify"
+  command = "cd site && hugo"
 
 [build.environment]
   HUGO_VERSION = "0.142.0"
-  GO_VERSION = "1.20"
-
-[context.production]
-  command = "cd site && hugo --minify"
-
-[context.deploy-preview]
-  command = "cd site && hugo --minify -b $DEPLOY_PRIME_URL"
-
-[[headers]]
-  for = "/*"
-  [headers.values]
-    X-Frame-Options = "DENY"
-    X-XSS-Protection = "1; mode=block"
-    X-Content-Type-Options = "nosniff"
-    Referrer-Policy = "strict-origin-when-cross-origin"
