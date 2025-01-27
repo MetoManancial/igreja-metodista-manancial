@@ -49,17 +49,93 @@
             font-weight: 500;
         }
 
-        .banner {
+        /* Estilos do Banner */
+        .banner-section {
+            margin-top: 130px;
+            position: relative;
             width: 100%;
-            height: auto;
-            max-height: 600px;
-            object-fit: cover;
+            height: 500px;
+            overflow: hidden;
+        }
+
+        .banner-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+
+        .banner {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        .banner.active {
+            opacity: 1;
         }
 
         .banner img {
             width: 100%;
             height: 100%;
             object-fit: cover;
+        }
+
+        /* Controles do Banner */
+        .banner-controls {
+            position: absolute;
+            top: 50%;
+            width: 100%;
+            transform: translateY(-50%);
+            z-index: 2;
+        }
+
+        .banner-btn {
+            position: absolute;
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            padding: 15px 20px;
+            cursor: pointer;
+            font-size: 20px;
+            transition: background 0.3s;
+        }
+
+        .banner-btn:hover {
+            background: rgba(0, 0, 0, 0.8);
+        }
+
+        .prev-btn {
+            left: 20px;
+        }
+
+        .next-btn {
+            right: 20px;
+        }
+
+        /* Indicadores do Banner */
+        .banner-dots {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 2;
+            display: flex;
+            gap: 10px;
+        }
+
+        .dot {
+            width: 12px;
+            height: 12px;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .dot.active {
+            background: white;
         }
 
         @media (max-width: 768px) {
@@ -86,40 +162,66 @@
                 display: block;
                 cursor: pointer;
             }
+
+            .banner-section {
+                height: 300px;
+                margin-top: 100px;
+            }
+
+            .banner-btn {
+                padding: 10px 15px;
+                font-size: 16px;
+            }
         }
     </style>
 </head>
 <body>
     <header>
         <nav class="nav-container">
-            <img src="logo.png" alt="Logo" class="logo">
+            <img src="Logo.png" alt="Logo" class="logo">
             <ul class="nav-menu">
                 <li><a href="#inicio">Início</a></li>
                 <li><a href="#sobre">Sobre Nós</a></li>
                 <li><a href="#ministerios">Ministérios</a></li>
                 <li><a href="https://www.youtube.com/metodistamanancial/live">Culto Online</a></li>
-                <li><a href="contato.html">Contato</a></li>
+                <li><a href="#contato">Contato</a></li>
             </ul>
         </nav>
     </header>
 
-    <div class="banner">
-        <!-- Adicione aqui seu código para o banner rotativo -->
+    <section class="banner-section">
         <div class="banner-container">
-            <div class="banner-controls">
-                <button class="prev-btn">&lt;</button>
-                <button class="next-btn">&gt;</button>
+            <div class="banner active">
+                <img src="/img/banner1.png" alt="Banner 1" loading="lazy">
             </div>
-            <div class="banner-dots">
-                <span class="dot active"></span>
-                <span class="dot"></span>
-                <span class="dot"></span>
+            <div class="banner">
+                <img src="/img/banner2.png" alt="Banner 2" loading="lazy">
+            </div>
+            <div class="banner">
+                <img src="/img/banner3.png" alt="Banner 3" loading="lazy">
+            </div>
+            <div class="banner">
+                <img src="/img/banner4.png" alt="Banner 4" loading="lazy">
+            </div>
+            <div class="banner">
+                <img src="/img/banner5.png" alt="Banner 5" loading="lazy">
             </div>
         </div>
 
-        <img src="banner1.jpg" alt="Banner">
-    </div>
-    <style></style>
+        <div class="banner-controls">
+            <button class="banner-btn prev-btn">❮</button>
+            <button class="banner-btn next-btn">❯</button>
+        </div>
+
+        <div class="banner-dots">
+            <span class="dot active" onclick="goToBanner(0)"></span>
+            <span class="dot" onclick="goToBanner(1)"></span>
+            <span class="dot" onclick="goToBanner(2)"></span>
+            <span class="dot" onclick="goToBanner(3)"></span>
+            <span class="dot" onclick="goToBanner(4)"></span>
+        </div>
+    </section>
+
     <section id="contato">
         <h2>Contato</h2>
         <p>Entre em contato conosco através do formulário abaixo.</p>
@@ -139,29 +241,74 @@
             <button type="submit">Enviar</button>
         </form>
     </section>
+
     <script>
-        // Adicione aqui seu JavaScript para o menu responsivo e banner rotativo
-    // Menu responsivo
-    const menuToggle = document.createElement('div');
-    menuToggle.className = 'menu-toggle';
-    menuToggle.innerHTML = '☰';
-    document.querySelector('.nav-container').appendChild(menuToggle);
+        // Variáveis do banner
+        const banners = document.querySelectorAll('.banner');
+        const dots = document.querySelectorAll('.dot');
+        const prevBtn = document.querySelector('.prev-btn');
+        const nextBtn = document.querySelector('.next-btn');
+        let currentBanner = 0;
+        let bannerInterval;
+        const totalBanners = banners.length;
 
-    menuToggle.addEventListener('click', () => {
-        document.querySelector('.nav-menu').classList.toggle('active');
-    });
+        // Função para mostrar um banner específico
+        function showBanner(index) {
+            banners.forEach(banner => banner.classList.remove('active'));
+            dots.forEach(dot => dot.classList.remove('active'));
+            
+            banners[index].classList.add('active');
+            dots[index].classList.add('active');
+            currentBanner = index;
+        }
 
-    // Banner rotativo
-    const banners = ['banner1.png', 'banner2.png', 'banner3.png'];
-    let currentBanner = 0;
-    const bannerImg = document.querySelector('.banner img');
+        // Função para ir para o próximo banner
+        function nextBanner() {
+            currentBanner = (currentBanner + 1) % totalBanners;
+            showBanner(currentBanner);
+        }
 
-    function rotateBanner() {
-        currentBanner = (currentBanner + 1) % banners.length;
-        bannerImg.src = banners[currentBanner];
-    }
+        // Função para ir para o banner anterior
+        function prevBanner() {
+            currentBanner = (currentBanner - 1 + totalBanners) % totalBanners;
+            showBanner(currentBanner);
+        }
 
-    setInterval(rotateBanner, 5000);
+        // Função para ir para um banner específico (usado pelos dots)
+        function goToBanner(index) {
+            showBanner(index);
+            resetInterval();
+        }
+
+        // Função para resetar o intervalo
+        function resetInterval() {
+            clearInterval(bannerInterval);
+            bannerInterval = setInterval(nextBanner, 5000);
+        }
+
+        // Event listeners
+        prevBtn.addEventListener('click', () => {
+            prevBanner();
+            resetInterval();
+        });
+
+        nextBtn.addEventListener('click', () => {
+            nextBanner();
+            resetInterval();
+        });
+
+        // Menu responsivo
+        const menuToggle = document.createElement('div');
+        menuToggle.className = 'menu-toggle';
+        menuToggle.innerHTML = '☰';
+        document.querySelector('.nav-container').appendChild(menuToggle);
+
+        menuToggle.addEventListener('click', () => {
+            document.querySelector('.nav-menu').classList.toggle('active');
+        });
+
+        // Iniciar o carrossel
+        resetInterval();
     </script>
 </body>
 </html>
