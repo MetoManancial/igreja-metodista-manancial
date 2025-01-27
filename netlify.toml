@@ -1,0 +1,13 @@
+[build]
+  base = "/"
+  command = "cd site && hugo --minify"
+  publish = "site/public"
+
+[build.environment]
+  HUGO_VERSION = "0.142.0"
+
+[context.production]
+  command = "cd site && hugo --minify"
+
+[context.deploy-preview]
+  command = "cd site && hugo --minify -b $DEPLOY_PRIME_URL"
