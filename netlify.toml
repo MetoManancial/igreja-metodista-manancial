@@ -1,17 +1,16 @@
 [build]
-  base = "site"
-  command = "hugo --minify"
-  publish = "public"
+  publish = "site/public"
+  command = "cd site && hugo --minify"
 
 [build.environment]
   HUGO_VERSION = "0.142.0"
   GO_VERSION = "1.20"
 
 [context.production]
-  command = "hugo --minify"
+  command = "cd site && hugo --minify"
 
 [context.deploy-preview]
-  command = "hugo --minify -b $DEPLOY_PRIME_URL"
+  command = "cd site && hugo --minify -b $DEPLOY_PRIME_URL"
 
 [[headers]]
   for = "/*"
