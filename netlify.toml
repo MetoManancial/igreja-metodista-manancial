@@ -1,12 +1,7 @@
 [build]
-  publish = "site/public"
-  command = "hugo -s site"
+  base = "site"
+  publish = "public"
+  command = "hugo"
 
 [build.environment]
   HUGO_VERSION = "0.142.0"
-
-[context.production]
-  command = "hugo -s site"
-
-[context.deploy-preview]
-  command = "hugo -s site -b $DEPLOY_PRIME_URL"
