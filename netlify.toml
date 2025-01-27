@@ -6,6 +6,37 @@
 [build.environment]
   HUGO_VERSION = "0.142.0"
 
+# Força HTTPS
+[[redirects]]
+  from = "http://*"
+  to = "https://:splat"
+  status = 301
+  force = true
+
+# Redireciona www para non-www
+[[redirects]]
+  from = "https://www.metodista-manancial.netlify.app/*"
+  to = "https://metodista-manancial.netlify.app/:splat"
+  status = 301
+  force = true
+
+# Redireciona URLs antigas para novas (exemplos)
+[[redirects]]
+  from = "/sobre"
+  to = "/sobre-nos"
+  status = 301
+
+[[redirects]]
+  from = "/contatos"
+  to = "/contato"
+  status = 301
+
+# Página 404 personalizada
+[[redirects]]
+  from = "/*"
+  to = "/404.html"
+  status = 404
+
 [[headers]]
   for = "/*"
   [headers.values]
