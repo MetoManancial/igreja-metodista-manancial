@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="{{ .Site.LanguageCode }}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ .Site.Title }}{{ with .Title }} | {{ . }}{{ end }}</title>
+    {{ partial "head.html" . }}
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    {{ partial "firebase.html" . }}
+    <script>
+    // Configuração do Firebase
+    const firebaseConfig = {
+        apiKey: "AIzaSyApqYhct5M5eEPaaGlWnSiTL2vpwbEsuL4",
+        authDomain: "manancial-2d259.firebaseapp.com",
+        projectId: "manancial-2d259",
+        storageBucket: "manancial-2d259.firebasestorage.app",
+        messagingSenderId: "1092996835342",
+        appId: "1:1092996835342:web:24d8a95facec2963e0b45f"
+    };
+
+    // Inicializar Firebase
+    if (!firebase.apps.length) {
+        firebase.initializeApp(firebaseConfig);
+    }
+
+    // Referências do Firestore
+    const db = firebase.firestore();
+    </script>
+</head>
+<body>
+    {{ partial "header.html" . }}
+    <main>
+        {{ block "main" . }}{{ end }}
+    </main>
+    {{ partial "scripts.html" . }}
+</body>
+</html>

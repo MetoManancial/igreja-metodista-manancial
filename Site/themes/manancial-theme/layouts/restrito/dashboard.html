@@ -1,0 +1,501 @@
+{{ define "main" }}
+<div class="dashboard-container">
+    <aside class="sidebar">
+        <div class="user-info">
+            <i class="fas fa-user-circle"></i>
+            <span id="userName">Carregando...</span>
+        </div>
+        <nav class="dashboard-nav">
+            <a href="#" class="nav-item active" data-section="musicas">
+                <i class="fas fa-music"></i>
+                Músicas
+            </a>
+            <a href="#" class="nav-item" data-section="escalas">
+                <i class="fas fa-calendar-alt"></i>
+                Escalas
+            </a>
+            <a href="#" class="nav-item" data-section="membros">
+                <i class="fas fa-users"></i>
+                Membros
+            </a>
+            <a href="/restrito/admin/" class="nav-item" id="adminLink" style="display: none;">
+                <i class="fas fa-cog"></i>
+                Administração
+            </a>
+        </nav>
+        <button onclick="handleLogout()" class="logout-button">
+            <i class="fas fa-sign-out-alt"></i>
+            Sair
+        </button>
+    </aside>
+
+    <div class="content-wrapper">
+        <div class="main-content">
+            <div id="musicas" class="content-section active">
+                <h2>Músicas do Ministério</h2>
+                <div class="search-bar">
+                    <input type="text" placeholder="Buscar música..." id="searchMusic">
+                    <button class="add-button" onclick="showAddMusicForm()">
+                        <i class="fas fa-plus"></i>
+                        Nova Música
+                    </button>
+                </div>
+                <div class="music-list">
+                    <!-- Lista de músicas será carregada aqui -->
+                </div>
+            </div>
+
+            <div id="escalas" class="content-section">
+                <h2>Escalas de Louvor</h2>
+                <div class="calendar-container">
+                    <!-- Calendário será carregada aqui -->
+                </div>
+            </div>
+
+            <div id="membros" class="content-section">
+                <h2>Membros do Ministério</h2>
+                <div class="members-list">
+                    <!-- Lista de membros será carregada aqui -->
+                </div>
+            </div>
+        </div>
+
+        {{ partial "footer-restrito.html" . }}
+    </div>
+</div>
+
+<!-- Modal para adicionar música -->
+<div id="addMusicModal" class="modal" style="display: none;">
+    <div class="modal-content">
+        <span class="close-button" onclick="hideAddMusicForm()">&times;</span>
+        <h2>Adicionar Nova Música</h2>
+        <form id="addMusicForm" onsubmit="handleAddMusic(event)">
+            <div class="form-group">
+                <label for="musicTitle">Título:</label>
+                <input type="text" id="musicTitle" required>
+            </div>
+            <div class="form-group">
+                <label for="musicArtist">Artista/Ministério:</label>
+                <input type="text" id="musicArtist" required>
+            </div>
+            <div class="form-group">
+                <label for="musicTone">Tom:</label>
+                <select id="musicTone" required>
+                    <option value="">Selecione...</option>
+                    <option value="C">C (Dó)</option>
+                    <option value="D">D (Ré)</option>
+                    <option value="E">E (Mi)</option>
+                    <option value="F">F (Fá)</option>
+                    <option value="G">G (Sol)</option>
+                    <option value="A">A (Lá)</option>
+                    <option value="B">B (Si)</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="musicLyrics">Letra:</label>
+                <textarea id="musicLyrics" rows="10" required></textarea>
+            </div>
+            <div class="form-group">
+                <label for="musicChords">Cifra (opcional):</label>
+                <textarea id="musicChords" rows="10"></textarea>
+            </div>
+            <button type="submit" class="submit-button">Salvar Música</button>
+        </form>
+    </div>
+</div>
+
+<style>
+:root {
+    --header-height: 120px;
+    --sidebar-width: 250px;
+}
+
+.dashboard-container {
+    display: flex;
+    min-height: calc(100vh - var(--header-height));
+    margin-top: var(--header-height);
+    position: relative;
+}
+
+.sidebar {
+    width: var(--sidebar-width);
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-accent) 100%);
+    color: var(--color-white);
+    padding: 20px;
+    position: fixed;
+    top: var(--header-height);
+    bottom: 0;
+    left: 0;
+    overflow-y: auto;
+    z-index: 100;
+    box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    padding: 15px 0;
+    margin-bottom: 20px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.user-info i {
+    font-size: 2em;
+    margin-right: 10px;
+    color: #D4AF37;
+}
+
+.dashboard-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.nav-item {
+    display: flex;
+    align-items: center;
+    padding: 12px 15px;
+    color: rgba(255,255,255,0.9);
+    text-decoration: none;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.nav-item i {
+    margin-right: 10px;
+    width: 20px;
+    text-align: center;
+    color: #D4AF37;
+}
+
+.nav-item:hover {
+    background: rgba(255,255,255,0.1);
+    color: #D4AF37;
+}
+
+.nav-item::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: 8px;
+    left: 15px;
+    background-color: #D4AF37;
+    transition: width 0.3s ease;
+}
+
+.nav-item:hover::after {
+    width: calc(100% - 30px);
+}
+
+.nav-item.active {
+    background: rgba(255,255,255,0.1);
+    color: #D4AF37;
+}
+
+.nav-item.active::after {
+    width: calc(100% - 30px);
+}
+
+.logout-button {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 12px 15px;
+    margin-top: 20px;
+    background: transparent;
+    border: 2px solid #D4AF37;
+    color: rgba(255,255,255,0.9);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.logout-button i {
+    margin-right: 10px;
+    color: #D4AF37;
+}
+
+.logout-button:hover {
+    background: #D4AF37;
+    color: var(--color-primary);
+}
+
+.logout-button:hover i {
+    color: var(--color-primary);
+}
+
+.content-wrapper {
+    flex: 1;
+    margin-left: var(--sidebar-width);
+    display: flex;
+    flex-direction: column;
+    min-height: calc(100vh - var(--header-height));
+}
+
+.main-content {
+    flex: 1;
+    padding: 20px;
+    background: #f5f5f5;
+}
+
+.content-section {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+    display: none;
+}
+
+.content-section.active {
+    display: block;
+}
+
+.content-section h2 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    color: var(--color-primary);
+}
+
+.search-bar {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.search-bar input {
+    flex-grow: 1;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.add-button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    background: var(--color-primary);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.add-button:hover {
+    background: var(--color-accent);
+}
+
+/* Modal styles */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 600px;
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+}
+
+.close-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 24px;
+    cursor: pointer;
+    color: #666;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.submit-button {
+    background: var(--color-primary);
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.submit-button:hover {
+    background: var(--color-accent);
+}
+</style>
+
+<script>
+// Verificar autenticação
+firebase.auth().onAuthStateChanged(async (user) => {
+    if (!user) {
+        window.location.href = '/restrito/';
+    } else {
+        document.getElementById('userName').textContent = user.email;
+        
+        // Verificar se é admin
+        const userDoc = await db.collection('users').doc(user.uid).get();
+        if (userDoc.exists && userDoc.data().role === 'admin') {
+            document.getElementById('adminLink').style.display = 'flex';
+        }
+    }
+});
+
+// Navegação entre seções
+document.querySelectorAll('.nav-item').forEach(item => {
+    if (!item.getAttribute('href').startsWith('/')) {
+        item.addEventListener('click', (e) => {
+            e.preventDefault();
+            
+            // Remover classe active de todos os itens
+            document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+            document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
+            
+            // Adicionar classe active ao item clicado
+            item.classList.add('active');
+            
+            // Mostrar seção correspondente
+            const sectionId = item.getAttribute('data-section');
+            document.getElementById(sectionId).classList.add('active');
+        });
+    }
+});
+
+// Funções do modal de música
+function showAddMusicForm() {
+    document.getElementById('addMusicModal').style.display = 'flex';
+}
+
+function hideAddMusicForm() {
+    document.getElementById('addMusicModal').style.display = 'none';
+}
+
+// Adicionar música
+async function handleAddMusic(event) {
+    event.preventDefault();
+    
+    const musicData = {
+        titulo: document.getElementById('musicTitle').value,
+        artista: document.getElementById('musicArtist').value,
+        tom: document.getElementById('musicTone').value,
+        letra: document.getElementById('musicLyrics').value,
+        cifra: document.getElementById('musicChords').value,
+        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+        updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+    };
+    
+    try {
+        await db.collection('musicas').add(musicData);
+        hideAddMusicForm();
+        document.getElementById('addMusicForm').reset();
+        loadMusics();
+    } catch (error) {
+        console.error('Erro ao adicionar música:', error);
+        alert('Erro ao adicionar música. Tente novamente.');
+    }
+}
+
+// Carregar músicas
+async function loadMusics() {
+    const musicList = document.querySelector('.music-list');
+    try {
+        const snapshot = await db.collection('musicas')
+            .orderBy('titulo')
+            .get();
+        
+        musicList.innerHTML = '';
+        
+        snapshot.forEach(doc => {
+            const music = doc.data();
+            const card = document.createElement('div');
+            card.className = 'music-card';
+            card.innerHTML = `
+                <h3>${music.titulo}</h3>
+                <p><strong>Artista:</strong> ${music.artista}</p>
+                <p><strong>Tom:</strong> ${music.tom}</p>
+                <div class="music-actions">
+                    <button onclick="viewMusic('${doc.id}')" class="action-button">
+                        <i class="fas fa-eye"></i> Ver
+                    </button>
+                    <button onclick="editMusic('${doc.id}')" class="action-button">
+                        <i class="fas fa-edit"></i> Editar
+                    </button>
+                    <button onclick="deleteMusic('${doc.id}')" class="action-button">
+                        <i class="fas fa-trash"></i> Excluir
+                    </button>
+                </div>
+            `;
+            musicList.appendChild(card);
+        });
+    } catch (error) {
+        console.error('Erro ao carregar músicas:', error);
+    }
+}
+
+// Funções para gerenciar músicas
+function viewMusic(id) {
+    // Implementar visualização da música
+}
+
+function editMusic(id) {
+    // Implementar edição da música
+}
+
+async function deleteMusic(id) {
+    if (confirm('Tem certeza que deseja excluir esta música?')) {
+        try {
+            await db.collection('musicas').doc(id).delete();
+            loadMusics();
+        } catch (error) {
+            console.error('Erro ao excluir música:', error);
+            alert('Erro ao excluir música. Tente novamente.');
+        }
+    }
+}
+
+// Logout
+function handleLogout() {
+    firebase.auth().signOut().then(() => {
+        window.location.href = '/restrito/';
+    }).catch((error) => {
+        console.error('Erro ao fazer logout:', error);
+    });
+}
+
+// Carregar músicas inicialmente
+loadMusics();
+</script>
+
+{{ end }}

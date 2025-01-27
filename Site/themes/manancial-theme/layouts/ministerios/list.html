@@ -1,0 +1,124 @@
+{{ define "main" }}
+<div class="ministerios-page">
+    <h1 class="page-title">Nossos Ministérios</h1>
+    
+    <div class="ministerios-grid">
+        <div class="ministerio-card">
+            <i class="fas fa-music"></i>
+            <h3>Louvor e Artes</h3>
+            <p>Adoração através da música e expressões artísticas, conduzindo a igreja em momentos de louvor e adoração.</p>
+        </div>
+        
+        <div class="ministerio-card">
+            <i class="fas fa-child"></i>
+            <h3>Infantil</h3>
+            <p>Dedicado ao ensino e desenvolvimento espiritual das crianças, com atividades lúdicas e educação cristã.</p>
+        </div>
+        
+        <div class="ministerio-card">
+            <i class="fas fa-users"></i>
+            <h3>Jovens</h3>
+            <p>Comunidade jovem ativa e dinâmica, focada no crescimento espiritual e discipulado.</p>
+        </div>
+
+        <div class="ministerio-card">
+            <i class="fas fa-hands-helping"></i>
+            <h3>Diaconia</h3>
+            <p>Serviço e assistência às necessidades da comunidade, promovendo ações sociais e apoio aos necessitados.</p>
+        </div>
+
+        <div class="ministerio-card">
+            <i class="fas fa-broadcast-tower"></i>
+            <h3>Comunicação</h3>
+            <p>Responsável pela divulgação e produção de conteúdo para a igreja, gerenciando redes sociais e materiais de comunicação.</p>
+        </div>
+
+        <div class="ministerio-card">
+            <i class="fas fa-pray"></i>
+            <h3>Pastoral</h3>
+            <p>Aconselhamento e cuidado espiritual da igreja, oferecendo suporte e orientação aos membros.</p>
+        </div>
+
+        <div class="ministerio-card">
+            <i class="fas fa-calculator"></i>
+            <h3>Finanças</h3>
+            <p>Gestão responsável dos recursos da igreja, garantindo transparência e eficiência administrativa.</p>
+        </div>
+
+        <div class="ministerio-card">
+            <i class="fas fa-praying-hands"></i>
+            <h3>Intercessão</h3>
+            <p>Dedicado à oração e intercessão pela igreja e seus membros, mantendo vigílias e grupos de oração.</p>
+        </div>
+
+        <div class="ministerio-card">
+            <i class="fas fa-building"></i>
+            <h3>Patrimônio</h3>
+            <p>Cuidado e manutenção das instalações da igreja, zelando pela infraestrutura e organização do espaço.</p>
+        </div>
+    </div>
+</div>
+
+<style>
+.ministerios-page {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+.page-title {
+    text-align: center;
+    color: var(--color-primary);
+    margin-bottom: 40px;
+    font-size: 2.5em;
+}
+
+.ministerios-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    margin: 30px 0;
+}
+
+.ministerio-card {
+    background: white;
+    padding: 30px;
+    border-radius: 8px;
+    text-align: center;
+    box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease;
+}
+
+.ministerio-card:hover {
+    transform: translateY(-5px);
+}
+
+.ministerio-card i {
+    font-size: 40px;
+    color: var(--color-primary);
+    margin-bottom: 20px;
+}
+
+.ministerio-card h3 {
+    color: var(--color-primary);
+    margin-bottom: 15px;
+    font-size: 1.5em;
+}
+
+.ministerio-card p {
+    color: #666;
+    line-height: 1.6;
+    font-size: 1.1em;
+}
+
+@media (max-width: 768px) {
+    .ministerios-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .page-title {
+        font-size: 2em;
+    }
+}
+</style>
+{{ end }}

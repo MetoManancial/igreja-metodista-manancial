@@ -1,0 +1,187 @@
+<footer>
+    <div class="footer-content">
+        <div class="footer-grid">
+            <div class="footer-section">
+                <h3>Endereço</h3>
+                <p>Rua Gilberto Pinto Mileo, 150 - C.I.C</p>
+                <p>Curitiba - PR</p>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Contatos</h3>
+                <p>
+                    <i class="fab fa-whatsapp"></i>
+                    <a href="https://wa.me/00999999999" target="_blank">(00) 99999-9999</a>
+                </p>
+                <p>
+                    <i class="far fa-envelope"></i>
+                    <a href="mailto:contato@metodistamanancial.com.br">contato@metodistamanancial.com.br</a>
+                </p>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Redes Sociais</h3>
+                <div class="social-icons">
+                    <a href="https://instagram.com/metodistamanancial" target="_blank" class="social-icon">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="https://facebook.com/metodistamanancial" target="_blank" class="social-icon">
+                        <i class="fab fa-facebook"></i>
+                    </a>
+                    <a href="https://youtube.com/metodistamanancial" target="_blank" class="social-icon">
+                        <i class="fab fa-youtube"></i>
+                    </a>
+                </div>
+            </div>
+
+            <div class="footer-section">
+                <h3>Horários de Culto</h3>
+                <p>Domingo: 18h</p>
+                <p>Quarta-feira: 20h</p>
+                <p>Tenda (1º e 3º Sábado)</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="footer-bottom">
+        <p>&copy; 2025 Igreja Metodista Manancial. Todos os direitos reservados.</p>
+    </div>
+</footer>
+
+<style>
+footer {
+    color: white;
+    padding: 40px 20px 20px;
+    margin-top: 40px;
+}
+
+.footer-content {
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-accent) 100%);
+    color: var(--color-white);
+    padding: 40px 20px 20px;
+    margin-top: 40px;
+    box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.footer-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 30px;
+}
+
+.footer-section h3 {
+    color: #D4AF37;
+    margin-bottom: 15px;
+    font-size: 1.2em;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.footer-section p {
+    margin-bottom: 10px;
+    color: rgba(255, 255, 255, 0.9);
+    line-height: 1.6;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.footer-section a {
+    color: rgba(255, 255, 255, 0.9);
+    text-decoration: none;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.footer-section a:hover {
+    color: #D4AF37;
+}
+
+.footer-section i {
+    color: #D4AF37;
+    font-size: 1.2em;
+}
+
+.social-icons {
+    display: flex;
+    gap: 20px;
+}
+
+.social-icon {
+    width: 40px;
+    height: 40px;
+    border: 2px solid #D4AF37;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.social-icon:hover {
+    background: #D4AF37;
+    transform: translateY(-3px);
+}
+
+.social-icon:hover i {
+    color: var(--color-primary);
+}
+
+.footer-bottom {
+    text-align: center;
+    padding-top: 20px;
+    margin-top: 30px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.footer-bottom p {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.9em;
+}
+
+/* Efeito hover nos links */
+.footer-section a:not(.social-icon)::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 1px;
+    bottom: -2px;
+    left: 0;
+    background-color: #D4AF37;
+    transition: width 0.3s ease;
+}
+
+.footer-section a:not(.social-icon):hover::after {
+    width: 100%;
+}
+
+@media (max-width: 768px) {
+    .footer-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .footer-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .footer-section {
+        text-align: center;
+    }
+
+    .footer-section p {
+        justify-content: center;
+    }
+
+    .social-icons {
+        justify-content: center;
+    }
+}
+</style>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">

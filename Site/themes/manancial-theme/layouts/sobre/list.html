@@ -1,0 +1,140 @@
+{{ define "main" }}
+<div class="about-page">
+    <div class="hero-section">
+        <h1>{{ .Title }}</h1>
+        <p class="vision-statement">Ser uma igreja que impacta positivamente nossa comunidade, formando discípulos de Cristo e sendo um exemplo de amor e serviço.</p>
+    </div>
+
+    <div class="values-section">
+        <h2>Nossos Valores</h2>
+        <div class="values-grid">
+            <div class="value-card">
+                <i class="fas fa-book-bible"></i>
+                <h3>Fé</h3>
+                <p>Fundamentada na palavra de Deus</p>
+            </div>
+            <div class="value-card">
+                <i class="fas fa-users"></i>
+                <h3>Comunhão</h3>
+                <p>Vivência em comunidade</p>
+            </div>
+            <div class="value-card">
+                <i class="fas fa-hands-helping"></i>
+                <h3>Serviço</h3>
+                <p>Dedicação ao próximo</p>
+            </div>
+            <div class="value-card">
+                <i class="fas fa-graduation-cap"></i>
+                <h3>Discipulado</h3>
+                <p>Formação contínua</p>
+            </div>
+            <div class="value-card">
+                <i class="fas fa-heart"></i>
+                <h3>Missão</h3>
+                <p>Alcançar vidas para Cristo</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="content-section">
+        {{ .Content }}
+    </div>
+</div>
+
+<style>
+.about-page {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.hero-section {
+    text-align: center;
+    padding: 60px 20px;
+    background: var(--color-primary);
+    color: white;
+    border-radius: 8px;
+    margin-bottom: 40px;
+}
+
+.hero-section h1 {
+    font-size: 2.5em;
+    margin-bottom: 20px;
+}
+
+.vision-statement {
+    font-size: 1.2em;
+    max-width: 800px;
+    margin: 0 auto;
+    line-height: 1.6;
+}
+
+.values-section {
+    padding: 40px 0;
+}
+
+.values-section h2 {
+    text-align: center;
+    color: var(--color-primary);
+    margin-bottom: 40px;
+    font-size: 2em;
+}
+
+.values-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 30px;
+    padding: 20px;
+}
+
+.value-card {
+    text-align: center;
+    padding: 30px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease;
+}
+
+.value-card:hover {
+    transform: translateY(-5px);
+}
+
+.value-card i {
+    font-size: 2.5em;
+    color: var(--color-accent);
+    margin-bottom: 20px;
+}
+
+.value-card h3 {
+    color: var(--color-primary);
+    margin-bottom: 10px;
+    font-size: 1.3em;
+}
+
+.value-card p {
+    color: #666;
+    line-height: 1.5;
+}
+
+.content-section {
+    max-width: 800px;
+    margin: 40px auto;
+    line-height: 1.6;
+}
+
+@media (max-width: 768px) {
+    .hero-section {
+        padding: 40px 20px;
+    }
+
+    .hero-section h1 {
+        font-size: 2em;
+    }
+
+    .values-grid {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+{{ end }}

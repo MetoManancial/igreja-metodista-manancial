@@ -1,0 +1,42 @@
+baseURL = "/"
+languageCode = "pt-br"
+title = "Metodista Manancial"
+theme = "manancial-theme"
+
+[menu]
+  [[menu.main]]
+    name = "Início"
+    url = "/"
+    weight = 1
+  [[menu.main]]
+    name = "Sobre Nós"
+    url = "/sobre/"
+    weight = 2
+  [[menu.main]]
+    name = "Ministérios"
+    url = "/ministerios/"
+    weight = 3
+  [[menu.main]]
+    name = "Culto Online"
+    url = "https://www.youtube.com/metodistamanancial/live"
+    weight = 4
+  [[menu.main]]
+    name = "Contato"
+    url = "/contato/"
+    weight = 5
+  [[menu.main]]
+    name = "Área Restrita"
+    url = "/restrito"
+    weight = 60
+
+[outputs]
+  home = ["HTML"]
+  section = ["HTML"]
+  page = ["HTML"]
+
+[permalinks]
+  restrito = "/restrito/:filename/"
+
+[security]
+  [security.funcs]
+    getenv = ['^HUGO_', '^CI$']

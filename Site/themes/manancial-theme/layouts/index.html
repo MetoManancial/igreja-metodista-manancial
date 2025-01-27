@@ -1,0 +1,286 @@
+{{ define "main" }}
+<div class="banner">
+    <img src="{{ "img/banner1.png" | relURL }}" alt="Banner" id="bannerImage" class="banner-image">
+    <div class="banner-controls">
+        <button class="banner-nav prev" onclick="changeBanner(-1)">❮</button>
+        <button class="banner-nav next" onclick="changeBanner(1)">❯</button>
+    </div>
+    <div class="banner-dots">
+        <span class="dot active" onclick="goToBanner(1)"></span>
+        <span class="dot" onclick="goToBanner(2)"></span>
+        <span class="dot" onclick="goToBanner(3)"></span>
+        <span class="dot" onclick="goToBanner(4)"></span>
+    </div>
+</div>
+
+<div class="content-container">
+    <section class="welcome-section">
+        <h2>Bem-vindos à Igreja Metodista Manancial</h2>
+        <h3>Um lugar de Comunhão, Amor, Família e Ensino <b>CAFE</b>.</h3>
+        <p> Somos uma família resgatando famílias!!!</p>
+    </section>
+
+    <section class="cultos-section">
+        <h2 class="section-title">Horários de Culto</h2>
+        <div class="cultos-grid">
+            <div class="culto-card">
+                <h3>Domingo</h3>
+                <p>18h - Culto de Louvor e Adoração</p>
+                <p class="special-service">2º Domingo - Santa Ceia do Senhor</p>
+            </div>
+            <div class="culto-card">
+                <h3>Quarta-feira</h3>
+                <p>20h00 - Culto com Propósito</p>
+            </div>
+            <div class="culto-card">
+                <h3>Sábado</h3>
+                <p>1º e 3º Sábado - Tenda</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="ministerios-preview">
+        <h2 class="section-title">Nossos Ministérios</h2>
+        <div class="ministerios-grid">
+            <div class="ministerio-card">
+                <i class="fas fa-music"></i>
+                <h3>Louvor</h3>
+                <p>Adoração e música</p>
+            </div>
+            <div class="ministerio-card">
+                <i class="fas fa-child"></i>
+                <h3>Infantil</h3>
+                <p>Educação cristã para crianças</p>
+            </div>
+            <div class="ministerio-card">
+                <i class="fas fa-users"></i>
+                <h3>Jovens</h3>
+                <p>Comunidade e discipulado</p>
+            </div>
+        </div>
+        <a href="/ministerios" class="btn-saiba-mais">Saiba Mais</a>
+    </section>
+
+    <style>
+    .banner {
+        width: 100%;
+        height: 600px;
+        background-color: #f5f5f5;
+        overflow: hidden;
+        margin-top: 130px;
+        position: relative;
+    }
+
+    .banner-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: opacity 0.5s ease-in-out;
+    }
+
+    .banner-controls {
+        position: absolute;
+        top: 50%;
+        left: 0;
+        right: 0;
+        transform: translateY(-50%);
+        display: flex;
+        justify-content: space-between;
+        padding: 0 20px;
+        pointer-events: none;
+    }
+
+    .banner-nav {
+        background: rgba(0, 0, 0, 0.5);
+        color: white;
+        border: none;
+        padding: 15px 25px;
+        cursor: pointer;
+        font-size: 24px;
+        border-radius: 50%;
+        transition: background 0.3s ease;
+        pointer-events: auto;
+    }
+
+    .banner-nav:hover {
+        background: rgba(0, 0, 0, 0.8);
+    }
+
+    .banner-dots {
+        position: absolute;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        gap: 10px;
+    }
+
+    .dot {
+        width: 12px;
+        height: 12px;
+        background: rgba(255, 255, 255, 0.5);
+        border-radius: 50%;
+        cursor: pointer;
+        transition: background 0.3s ease;
+    }
+
+    .dot.active {
+        background: white;
+    }
+
+    .content-container {
+        max-width: 1200px;
+        margin: 40px auto;
+        padding: 0 20px;
+    }
+
+    .welcome-section {
+        text-align: center;
+        margin: 60px 0;
+    }
+
+    .welcome-section h1 {
+        color: #333;
+        margin-bottom: 20px;
+    }
+
+    .cultos-section {
+        background-color: #f5f5f5;
+        padding: 40px 20px;
+        margin: 40px -20px;
+    }
+
+    .cultos-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 20px;
+        margin-top: 30px;
+    }
+
+    .culto-card {
+        background: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        text-align: center;
+    }
+
+    .culto-card .special-service {
+        color: var(--color-accent);
+        font-style: italic;
+        margin-top: 5px;
+        font-size: 0.9em;
+    }
+
+    .ministerios-preview {
+        margin: 60px 0;
+        text-align: center;
+    }
+
+    .ministerios-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 30px;
+        margin: 30px 0;
+    }
+
+    .ministerio-card {
+        background: white;
+        padding: 30px;
+        border-radius: 8px;
+        text-align: center;
+        box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+        transition: transform 0.3s ease;
+    }
+
+    .ministerio-card:hover {
+        transform: translateY(-5px);
+    }
+
+    .ministerio-card i {
+        font-size: 40px;
+        color: var(--color-primary);
+        margin-bottom: 20px;
+    }
+
+    .ministerio-card h3 {
+        color: var(--color-primary);
+        margin-bottom: 15px;
+    }
+
+    .btn-saiba-mais {
+        display: inline-block;
+        padding: 12px 24px;
+        background-color: var(--color-primary);
+        color: white;
+        text-decoration: none;
+        border-radius: 4px;
+        transition: background-color 0.3s ease;
+        margin-top: 30px;
+    }
+
+    .btn-saiba-mais:hover {
+        background-color: var(--color-accent);
+    }
+
+    @media (max-width: 768px) {
+        .banner {
+            height: 400px;
+            margin-top: 120px;
+        }
+
+        .banner-nav {
+            padding: 10px 20px;
+            font-size: 20px;
+        }
+
+        .cultos-grid,
+        .ministerios-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+    </style>
+
+    <script>
+    let currentBanner = 1;
+    const totalBanners = 4;
+    let bannerInterval;
+
+    function updateDots() {
+        document.querySelectorAll('.dot').forEach((dot, index) => {
+            dot.classList.toggle('active', index + 1 === currentBanner);
+        });
+    }
+
+    function changeBanner(direction) {
+        currentBanner = ((currentBanner + direction - 1 + totalBanners) % totalBanners) + 1;
+        updateBanner();
+        resetInterval();
+    }
+
+    function goToBanner(number) {
+        currentBanner = number;
+        updateBanner();
+        resetInterval();
+    }
+
+    function updateBanner() {
+        const bannerImg = document.getElementById('bannerImage');
+        bannerImg.style.opacity = '0';
+        
+        setTimeout(() => {
+            bannerImg.src = `/img/banner${currentBanner}.png`;
+            bannerImg.style.opacity = '1';
+            updateDots();
+        }, 500);
+    }
+
+    function resetInterval() {
+        clearInterval(bannerInterval);
+        bannerInterval = setInterval(() => changeBanner(1), 5000);
+    }
+
+    // Iniciar o carrossel
+    resetInterval();
+    </script>
+{{ end }}

@@ -1,0 +1,221 @@
+{{ define "main" }}
+<div class="contact-page">
+    <h1>{{ .Title }}</h1>
+    <div class="contact-container">
+        <div class="contact-form">
+            <h2>Formulário de Contato</h2>
+            <form id="contactForm" class="form">
+                <div class="form-group">
+                    <label for="name">Nome:</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">E-mail:</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Telefone:</label>
+                    <input type="tel" id="phone" name="phone" required>
+                </div>
+                <div class="form-group">
+                    <label for="subject">Assunto:</label>
+                    <select id="subject" name="subject" required>
+                        <option value="">Selecione um assunto</option>
+                        <option value="Informações">Informações</option>
+                        <option value="Oração">Pedido de Oração</option>
+                        <option value="Visita">Solicitar Visita</option>
+                        <option value="Outros">Outros</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="message">Mensagem:</label>
+                    <textarea id="message" name="message" required></textarea>
+                </div>
+                <button type="submit" class="submit-btn">Enviar Mensagem</button>
+                <div id="alert" class="alert" style="display: none;"></div>
+            </form>
+        </div>
+        <div class="contact-map">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3599.960298839196!2d-49.3373893!3d-25.5012977!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94dce3836d3f8b11%3A0xf1f65ca6b6f1ee09!2sR.%20Gilberto%20Pinto%20Mileo%2C%20150%20-%20Cidade%20Industrial%20De%20Curitiba%2C%20Curitiba%20-%20PR%2C%2081460-140!5e0!3m2!1spt-BR!2sbr!4v1706227138886!5m2!1spt-BR!2sbr" width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+<script>
+(function() {
+    emailjs.init("rtGYybe1X2Y-XEaVe");
+
+    const form = document.getElementById('contactForm');
+    const alert = document.getElementById('alert');
+    
+    function showAlert(message, isError = false) {
+        alert.textContent = message;
+        alert.style.display = 'block';
+        alert.className = 'alert ' + (isError ? 'alert-error' : 'alert-success');
+        setTimeout(() => {
+            alert.style.display = 'none';
+        }, 5000);
+    }
+
+    form.addEventListener('submit', function(event) {
+        event.preventDefault();
+        
+        const submitBtn = this.querySelector('.submit-btn');
+        const originalText = submitBtn.textContent;
+        submitBtn.textContent = 'Enviando...';
+        submitBtn.disabled = true;
+
+        const templateParams = {
+            from_name: document.getElementById('name').value,
+            from_email: document.getElementById('email').value,
+            phone: document.getElementById('phone').value,
+            subject: document.getElementById('subject').value,
+            message: document.getElementById('message').value
+        };
+
+        console.log('Enviando email com os parâmetros:', templateParams);
+
+        emailjs.send('service_2kulf5b', 'template_rwh3iad', templateParams)
+            .then(function(response) {
+                console.log('Email enviado:', response);
+                showAlert('Mensagem enviada com sucesso! Entraremos em contato em breve.');
+                form.reset();
+            })
+            .catch(function(error) {
+                console.error('Erro detalhado:', error);
+                showAlert('Erro ao enviar mensagem. Por favor, tente novamente.', true);
+            })
+            .finally(function() {
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
+            });
+    });
+})();
+</script>
+
+<style>
+.contact-page {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 20px;
+}
+
+.contact-page h1 {
+    text-align: center;
+    color: var(--color-primary);
+    margin-bottom: 40px;
+}
+
+.contact-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+}
+
+.contact-form {
+    background: white;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+}
+
+.contact-form h2 {
+    color: var(--color-primary);
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: #444;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+.form-group select {
+    background-color: white;
+    cursor: pointer;
+}
+
+.form-group textarea {
+    height: 150px;
+    resize: vertical;
+}
+
+.submit-btn {
+    background: var(--color-primary);
+    color: white;
+    padding: 12px 30px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    width: 100%;
+    transition: background-color 0.3s ease;
+}
+
+.submit-btn:hover {
+    background: var(--color-accent);
+}
+
+.submit-btn:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+}
+
+.alert {
+    margin-top: 20px;
+    padding: 15px;
+    border-radius: 4px;
+    text-align: center;
+}
+
+.alert-success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.alert-error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+.contact-map {
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+}
+
+.contact-map iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+}
+
+@media (max-width: 768px) {
+    .contact-container {
+        grid-template-columns: 1fr;
+    }
+
+    .contact-map {
+        height: 300px;
+    }
+}
+</style>
+{{ end }}

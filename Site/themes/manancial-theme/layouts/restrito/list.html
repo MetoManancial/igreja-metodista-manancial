@@ -1,0 +1,412 @@
+{{ define "main" }}
+<div class="login-container">
+    <div class="login-box">
+        <h2>Área Restrita</h2>
+        <div class="login-tabs">
+            <button class="tab-button active" data-tab="login">Login</button>
+            <button class="tab-button" data-tab="register">Registrar</button>
+        </div>
+        
+        <div id="loginTab" class="tab-content active">
+            <form id="loginForm" onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label for="loginEmail">E-mail:</label>
+                    <input type="email" id="loginEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">Senha:</label>
+                    <input type="password" id="loginPassword" required>
+                    <span class="password-toggle" onclick="togglePassword('loginPassword')">
+                        <i class="fas fa-eye"></i>
+                    </span>
+                </div>
+                <div class="form-group">
+                    <label class="checkbox-container">
+                        <input type="checkbox" id="rememberMe">
+                        <span class="checkmark"></span>
+                        Lembrar-me
+                    </label>
+                </div>
+                <div id="loginError" class="error-message"></div>
+                <button type="submit" class="submit-button">Entrar</button>
+                <a href="#" class="forgot-password" onclick="forgotPassword(event)">
+                    Esqueceu a senha?
+                </a>
+            </form>
+        </div>
+
+        <div id="registerTab" class="tab-content">
+            <form id="registerForm" onsubmit="handleRegister(event)">
+                <div class="form-group">
+                    <label for="registerName">Nome:</label>
+                    <input type="text" id="registerName" required>
+                </div>
+                <div class="form-group">
+                    <label for="registerEmail">E-mail:</label>
+                    <input type="email" id="registerEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="registerPassword">Senha:</label>
+                    <input type="password" id="registerPassword" required minlength="6">
+                    <span class="password-toggle" onclick="togglePassword('registerPassword')">
+                        <i class="fas fa-eye"></i>
+                    </span>
+                </div>
+                <div class="form-group">
+                    <label for="registerConfirmPassword">Confirmar Senha:</label>
+                    <input type="password" id="registerConfirmPassword" required minlength="6">
+                    <span class="password-toggle" onclick="togglePassword('registerConfirmPassword')">
+                        <i class="fas fa-eye"></i>
+                    </span>
+                </div>
+                <div class="form-group">
+                    <label for="inviteCode">Código de Convite:</label>
+                    <input type="text" id="inviteCode" required>
+                </div>
+                <div id="registerError" class="error-message"></div>
+                <button type="submit" class="submit-button">Registrar</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<style>
+.login-container {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    margin-top: 60px;
+    background-color: #f5f5f5;
+}
+
+.login-box {
+    background: white;
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+    width: 100%;
+    max-width: 400px;
+}
+
+.login-box h2 {
+    color: var(--color-primary);
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.login-tabs {
+    display: flex;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #eee;
+}
+
+.tab-button {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    background: none;
+    color: #666;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.tab-button.active {
+    color: var(--color-primary);
+    border-bottom: 2px solid var(--color-primary);
+    margin-bottom: -2px;
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+.form-group {
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: #333;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+    transition: border-color 0.3s ease;
+}
+
+.form-group input:focus {
+    border-color: var(--color-primary);
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(var(--color-primary-rgb), 0.1);
+}
+
+.password-toggle {
+    position: absolute;
+    right: 10px;
+    top: 38px;
+    cursor: pointer;
+    color: #666;
+}
+
+.checkbox-container {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.submit-button {
+    width: 100%;
+    padding: 12px;
+    background-color: var(--color-primary);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.submit-button:hover {
+    background-color: var(--color-accent);
+}
+
+.forgot-password {
+    display: block;
+    text-align: center;
+    margin-top: 15px;
+    color: var(--color-primary);
+    text-decoration: none;
+}
+
+.error-message {
+    color: #dc3545;
+    text-align: center;
+    margin: 10px 0;
+    min-height: 20px;
+}
+
+@media (max-width: 768px) {
+    .login-box {
+        padding: 20px;
+    }
+}
+</style>
+
+<!-- Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+
+<!-- Firebase Config -->
+<script src="{{ "js/firebase-config.js" | relURL }}"></script>
+
+<script>
+// Verificar se já está logado
+firebaseAuth.checkAuth()
+    .then(user => {
+        window.location.href = '/restrito/dashboard/';
+    })
+    .catch(() => {
+        // Não está logado, pode continuar na página
+    });
+
+// Alternar entre abas
+document.querySelectorAll('.tab-button').forEach(button => {
+    button.addEventListener('click', () => {
+        // Remover active de todas as abas
+        document.querySelectorAll('.tab-button').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+        
+        // Adicionar active na aba clicada
+        button.classList.add('active');
+        document.getElementById(button.dataset.tab + 'Tab').classList.add('active');
+        
+        // Limpar mensagens de erro
+        document.querySelectorAll('.error-message').forEach(e => e.textContent = '');
+    });
+});
+
+// Função para mostrar/esconder senha
+function togglePassword(inputId) {
+    const input = document.getElementById(inputId);
+    const icon = input.nextElementSibling.querySelector('i');
+    
+    if (input.type === 'password') {
+        input.type = 'text';
+        icon.classList.remove('fa-eye');
+        icon.classList.add('fa-eye-slash');
+    } else {
+        input.type = 'password';
+        icon.classList.remove('fa-eye-slash');
+        icon.classList.add('fa-eye');
+    }
+}
+
+// Login
+async function handleLogin(event) {
+    event.preventDefault();
+    
+    const email = document.getElementById('loginEmail').value;
+    const password = document.getElementById('loginPassword').value;
+    const rememberMe = document.getElementById('rememberMe').checked;
+    const errorElement = document.getElementById('loginError');
+    
+    try {
+        // Persistência da sessão
+        await firebase.auth().setPersistence(
+            rememberMe 
+                ? firebase.auth.Auth.Persistence.LOCAL 
+                : firebase.auth.Auth.Persistence.SESSION
+        );
+        
+        await firebaseAuth.loginWithEmail(email, password);
+        window.location.href = '/restrito/dashboard/';
+    } catch (error) {
+        switch (error.code) {
+            case 'auth/wrong-password':
+                errorElement.textContent = 'Senha incorreta';
+                break;
+            case 'auth/user-not-found':
+                errorElement.textContent = 'Usuário não encontrado';
+                break;
+            case 'auth/invalid-email':
+                errorElement.textContent = 'E-mail inválido';
+                break;
+            default:
+                errorElement.textContent = 'Erro ao fazer login. Tente novamente.';
+        }
+    }
+}
+
+// Registro
+async function handleRegister(event) {
+    event.preventDefault();
+    
+    const name = document.getElementById('registerName').value;
+    const email = document.getElementById('registerEmail').value;
+    const password = document.getElementById('registerPassword').value;
+    const confirmPassword = document.getElementById('registerConfirmPassword').value;
+    const inviteCode = document.getElementById('inviteCode').value;
+    const errorElement = document.getElementById('registerError');
+    
+    // Validar senha
+    if (password !== confirmPassword) {
+        errorElement.textContent = 'As senhas não coincidem';
+        return;
+    }
+    
+    try {
+        // Verificar se é o primeiro usuário
+        const usersSnapshot = await firebaseAuth.db.collection('users').get();
+        const isFirstUser = usersSnapshot.empty;
+
+        let userRole = 'member';
+        
+        if (isFirstUser) {
+            // Se for o primeiro usuário, será admin independente do código
+            userRole = 'admin';
+        } else {
+            // Verificar código de convite
+            const inviteRef = await firebaseAuth.db.collection('invites').doc(inviteCode).get();
+            
+            if (!inviteRef.exists || inviteRef.data().used) {
+                errorElement.textContent = 'Código de convite inválido ou já utilizado';
+                return;
+            }
+            userRole = inviteRef.data().role || 'member';
+        }
+        
+        // Criar usuário
+        const userCredential = await firebase.auth().createUserWithEmailAndPassword(email, password);
+        
+        // Adicionar informações do usuário
+        await firebaseAuth.db.collection('users').doc(userCredential.user.uid).set({
+            name,
+            email,
+            role: userRole,
+            createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+        
+        if (!isFirstUser) {
+            // Marcar convite como usado (apenas se não for o primeiro usuário)
+            await firebaseAuth.db.collection('invites').doc(inviteCode).update({
+                used: true,
+                usedBy: userCredential.user.uid,
+                usedAt: firebase.firestore.FieldValue.serverTimestamp()
+            });
+        }
+        
+        // Atualizar nome do usuário
+        await userCredential.user.updateProfile({
+            displayName: name
+        });
+        
+        window.location.href = '/restrito/dashboard';
+    } catch (error) {
+        console.error('Erro no registro:', error);
+        switch (error.code) {
+            case 'auth/email-already-in-use':
+                errorElement.textContent = 'Este e-mail já está em uso';
+                break;
+            case 'auth/invalid-email':
+                errorElement.textContent = 'E-mail inválido';
+                break;
+            case 'auth/weak-password':
+                errorElement.textContent = 'A senha deve ter pelo menos 6 caracteres';
+                break;
+            default:
+                errorElement.textContent = 'Erro ao criar conta. Tente novamente.';
+        }
+    }
+}
+
+// Recuperação de senha
+async function forgotPassword(event) {
+    event.preventDefault();
+    
+    const email = document.getElementById('loginEmail').value;
+    const errorElement = document.getElementById('loginError');
+    
+    if (!email) {
+        errorElement.textContent = 'Digite seu e-mail para recuperar a senha';
+        return;
+    }
+    
+    try {
+        await firebase.auth().sendPasswordResetEmail(email);
+        errorElement.textContent = 'E-mail de recuperação enviado!';
+        errorElement.style.color = '#28a745';
+    } catch (error) {
+        switch (error.code) {
+            case 'auth/invalid-email':
+                errorElement.textContent = 'E-mail inválido';
+                break;
+            case 'auth/user-not-found':
+                errorElement.textContent = 'Usuário não encontrado';
+                break;
+            default:
+                errorElement.textContent = 'Erro ao enviar e-mail de recuperação';
+        }
+    }
+}
+</script>
+
+{{ end }}

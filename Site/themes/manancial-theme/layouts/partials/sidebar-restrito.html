@@ -1,0 +1,26 @@
+<div class="user-info">
+    <i class="fas fa-user-circle"></i>
+    <span id="userName">Carregando...</span>
+</div>
+<nav class="dashboard-nav">
+    <a href="#" class="nav-item active" data-section="musicas">
+        <i class="fas fa-music"></i>
+        Músicas
+    </a>
+    <a href="#" class="nav-item" data-section="escalas">
+        <i class="fas fa-calendar-alt"></i>
+        Escalas
+    </a>
+    <a href="#" class="nav-item" data-section="membros">
+        <i class="fas fa-users"></i>
+        Membros
+    </a>
+    <a href="/restrito/admin/" class="nav-item" id="adminLink" style="display: none;">
+        <i class="fas fa-cog"></i>
+        Administração
+    </a>
+    <button onclick="handleLogout()" class="logout-button">
+        <i class="fas fa-sign-out-alt"></i>
+        Sair
+    </button>
+</nav>
